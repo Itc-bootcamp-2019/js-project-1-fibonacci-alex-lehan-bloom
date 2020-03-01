@@ -1,7 +1,8 @@
-let fibonacciX = null;
+let fibonacciX = 0;
 let fibonacciY = 0;
 let fibList = [0, 1];
 let previousTwoNumbers = [];
+let userInput = 0;
 
 function fibonacci(x) {
   fibonacciX = x;
@@ -15,4 +16,11 @@ function fibonacci(x) {
   document.getElementById("y").innerHTML = fibonacciY;
 }
 
-fibonacci(17);
+let button = document.getElementById("button");
+button.addEventListener("click", () => {
+  userInput = document.getElementById("inputField").value;
+  fibonacci(userInput);
+  fibList = [0, 1];
+});
+
+// fibonacci(17);
