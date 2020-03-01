@@ -1,8 +1,33 @@
+body {
+  padding-top: 75px;
+  padding-left: 150px;
+}
+span,
+p {
+  font-size: 24px;
+}
+h1 {
+  font-size: 72px;
+  margin-bottom: 40px;
+}
 .content {
   display: flex;
+  height: 100%;
   align-items: center;
 }
-input {
+.form-control {
   margin-left: 10px;
   margin-right: 10px;
+  width: 90px;
+}
+#button {
+  background-color: #0275d8;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+}
+#y {
+  font-weight: bold;
+  text-decoration: underline;
+  margin-left: 15px;
 }
