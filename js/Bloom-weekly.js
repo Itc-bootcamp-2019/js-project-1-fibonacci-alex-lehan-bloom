@@ -1,26 +1,17 @@
-// Fibonacci without recurision
-function fibonacci(fibonacciX) {
-  let fibList = [0, 1];
-  let fibonacciY;
-  for (i = 1; i < fibonacciX; i++) {
-    fibonacciY = fibList[fibList.length - 1] + fibList[fibList.length - 2];
-    fibList.push(fibonacciY);
-  }
-  document.getElementById("y").innerText = fibonacciY;
-}
 
-// Fibonacci done via recursion
-function recursiveFibonacci(x) {
-  //base case.
-  if (x === 1 || x === 0) return x;
-  //recursive case.
-  else {
-    return recursiveFibonacci(x - 2) + recursiveFibonacci(x - 1);
-  }
-}
-
-// Detects button click using onclick=buttonClick()
+//Milestone 5. Send X to remote server and get back Y. I used AJAX.
 function buttonClicked() {
   fibonacciX = document.getElementById("inputField").value;
-  document.getElementById("y").innerText = recursiveFibonacci(fibonacciX);
+  let xhr = new XMLHttpRequest();
+  let url = "http://localhost:5050/fibonacci/" + fibonacciX;
+  xhr.open("GET", url);
+  xhr.responseType = "text";
+  xhr.onload = function() {
+    // alert(`Loaded: ${xhr.status} ${xhr.response}`);
+    let all = JSON.parse(xhr.response);
+    let y = all.result;
+    console.log("The y is: " + y);
+    document.getElementById("y").innerText = y;
+  };
+  xhr.send();
 }
