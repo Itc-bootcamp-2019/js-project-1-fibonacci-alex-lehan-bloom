@@ -1,4 +1,4 @@
-// Function for figuring out fibonacci
+// Fibonacci without recurision
 function fibonacci(fibonacciX) {
   let fibList = [0, 1];
   let fibonacciY;
@@ -9,18 +9,18 @@ function fibonacci(fibonacciX) {
   document.getElementById("y").innerText = fibonacciY;
 }
 
-// The below function can be used instead of onclick
-
-// function buttonClicked() {
-//   let button = document.getElementById("button");
-//   button.addEventListener("click", () => {
-//     fibonacciX = document.getElementById("inputField").value;
-//     fibonacci(fibonacciX);
-//   });
-// }
+// Fibonacci done via recursion
+function recursiveFibonacci(x) {
+  //base case.
+  if (x === 1 || x === 0) return x;
+  //recursive case.
+  else {
+    return recursiveFibonacci(x - 2) + recursiveFibonacci(x - 1);
+  }
+}
 
 // Detects button click using onclick=buttonClick()
 function buttonClicked() {
   fibonacciX = document.getElementById("inputField").value;
-  fibonacci(fibonacciX);
+  document.getElementById("y").innerText = recursiveFibonacci(fibonacciX);
 }
