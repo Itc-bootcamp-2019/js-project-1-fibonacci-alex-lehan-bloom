@@ -4,8 +4,12 @@ button.addEventListener("click", getYFromServer);
 
 // Milestone 5 with Fetch. Send X to remote server and get back Y. We display Y to the user.
 function getYFromServer() {
+  // Remove alerts, y num, etc. from any previous runs of the function
   hideAlert();
   document.getElementById("y").innerText = "";
+  document.getElementById("forty-two-error").innerText = "";
+
+  // Start processing of X
   showSpinner();
   fibonacciX = document.getElementById("inputField").value;
   // Num entered by user can't be higher than 50
@@ -23,11 +27,15 @@ function getYFromServer() {
   } else {
     fetch("http://localhost:5050/fibonacci/" + fibonacciX)
       .then(response => {
-        if (!response.ok || (response.status = 400)) {
+        // Display error if get back 400 from server (num 42 case)
+        if (response.status === 400) {
           console.log("40");
-          document.getElementById("forty-two-error").innerText = "Server Error: 42 is the meaning of life";
+          hideSpinner();
+          document.getElementById("forty-two-error").innerText =
+            "Server Error: 42 is the meaning of life";
+        } else {
+          return response.json();
         }
-        return response.json();
       })
       .then(data => {
         console.log(data);
@@ -37,7 +45,6 @@ function getYFromServer() {
       });
   }
 }
-
 
 // Show the spinner during API request
 function showSpinner() {
@@ -58,7 +65,6 @@ function hideSpinner() {
 function showAlert() {
   const alert = document.getElementById("alert");
   alert.className = "alert alert-danger show";
-  
   const inputField = document.getElementById("inputField");
   inputField.className = "form-control red";
 }
