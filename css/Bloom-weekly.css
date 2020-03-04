@@ -12,7 +12,7 @@ h1 {
   font-size: 72px;
   margin-bottom: 40px;
 }
-.content {
+.main-content {
   display: flex;
   height: 100%;
   align-items: center;
@@ -32,4 +32,39 @@ h1 {
   font-weight: bold;
   text-decoration: underline;
   margin-left: 15px;
+}
+
+/* Loading spinner */
+
+#spinner {
+  visibility: hidden;
+  border: 5px solid transparent; /* Light grey */
+  border-top: 5px solid black; /* Blue */
+  border-bottom: 5px solid black; /* Blue */
+  border-right: 5px solid black; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+#spinner.show {
+  visibility: visible;
+  margin-left: 5px;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*  Alert message */
+#alert {
+  visibility: hidden;
+}
+
+#alert.show {
+  visibility: visible;
 }

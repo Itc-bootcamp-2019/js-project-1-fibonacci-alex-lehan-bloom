@@ -14,7 +14,7 @@
   </head>
   <body>
     <h1>Fibonacci Calculator</h1>
-    <div class="content">
+    <div class="main-content">
       <span>
         The Fibonacci Of
       </span>
@@ -25,10 +25,13 @@
         placeholder="#"
         aria-label="Search"
       />
-      <button onclick="buttonClicked()" id="button" class="btn btn-primary">
+      <button id="button" class="btn btn-primary">
         IS
       </button>
       <span id="y"></span>
+      <div id="spinner"></div>
+    </div>
+    <div id="alert" class="alert alert-danger" role="alert">
     </div>
     <script src="js/Bloom-weekly.js"></script>
   </body>
