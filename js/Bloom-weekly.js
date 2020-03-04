@@ -4,16 +4,29 @@ button.addEventListener("click", getYFromServer);
 
 // Milestone 5 with Fetch. Send X to remote server and get back Y. We display Y to the user.
 function getYFromServer() {
+  hideAlert();
   document.getElementById("y").innerText = "";
   showSpinner();
   fibonacciX = document.getElementById("inputField").value;
-  if (fibonacciX < 0 || fibonacciX > 50) {
+  // Num entered by user can't be higher than 50
+  if (fibonacciX > 50) {
     let alert = document.getElementById("alert");
-    alert.innerText = "This is a test.";
+    showAlert();
+    alert.innerText = "Can't be larger than 50.";
+    hideSpinner();
+    // Num entered by user can't be lower than 1
+  } else if (fibonacciX < 1) {
+    let alert = document.getElementById("alert");
+    showAlert();
+    alert.innerText = "Can't be less than 1.";
     hideSpinner();
   } else {
     fetch("http://localhost:5050/fibonacci/" + fibonacciX)
       .then(response => {
+        if (!response.ok || (response.status = 400)) {
+          console.log("40");
+          document.getElementById("forty-two-error").innerText = "Server Error: 42 is the meaning of life";
+        }
         return response.json();
       })
       .then(data => {
@@ -24,6 +37,7 @@ function getYFromServer() {
       });
   }
 }
+
 
 // Show the spinner during API request
 function showSpinner() {
@@ -38,4 +52,21 @@ function showSpinner() {
 function hideSpinner() {
   const spinner = document.getElementById("spinner");
   spinner.className = "";
+}
+
+// Show alert user enters invalid X value into input field
+function showAlert() {
+  const alert = document.getElementById("alert");
+  alert.className = "alert alert-danger show";
+  
+  const inputField = document.getElementById("inputField");
+  inputField.className = "form-control red";
+}
+
+// Hide alert
+function hideAlert() {
+  const alert = document.getElementById("alert");
+  alert.className = "";
+  const inputField = document.getElementById("inputField");
+  inputField.className = "form-control";
 }
