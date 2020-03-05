@@ -1,23 +1,19 @@
 // Displays previous results from server.
 function previousResults() {
+  showSpinnerTwo();
   fetch("http://localhost:5050/getFibonacciResults")
     .then(response => {
       return response.json();
     })
     .then(data => {
-      let listOfPreviousRuns = [];
       for (let i = 0; i < data.results.length; i++) {
-        // Creates sentence for each result returned from server
+        let results = document.getElementById("results-list");
         let date = new Date(data.results[i].createdDate).toUTCString();
-        listOfPreviousRuns.push(
-          `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`
-        );
-        // Puts each sentence into an <li> in the HTML
-        let resultsSection = document.getElementById("results");
         let newLi = document.createElement("li");
-        newLi.innerHTML = listOfPreviousRuns[i];
-        resultsSection.appendChild(newLi);
+        newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
+        results.appendChild(newLi);
       }
+      hideSpinnerTwo();
     });
 }
 
@@ -87,6 +83,22 @@ function showSpinner() {
 // Hide spinner
 function hideSpinner() {
   const spinner = document.getElementById("spinner");
+  spinner.className = "";
+}
+
+//Show spinner 2 while previous results are loading
+function showSpinnerTwo() {
+  const spinner = document.getElementById("spinner-results");
+  console.log("@@");
+  spinner.className = "show";
+  setTimeout(() => {
+    spinner.className = spinner.className.replace("show", "");
+  }, 8000);
+}
+
+// Hide spinner 2
+function hideSpinnerTwo() {
+  const spinner = document.getElementById("spinner-results");
   spinner.className = "";
 }
 
