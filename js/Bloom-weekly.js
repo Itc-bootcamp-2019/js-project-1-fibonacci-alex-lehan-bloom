@@ -1,56 +1,75 @@
-// Detects when button is clicked. When button is clicked, we iniate getYFromServer().
-let button = document.getElementById("button");
-button.addEventListener("click", getYFromServer);
+// Displays previous results from server.
+function previousResults() {
+  fetch("http://localhost:5050/getFibonacciResults")
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      let listOfPreviousRuns = [];
+      for (let i = 0; i < data.results.length; i++) {
+        // Creates sentence for each result returned from server
+        let date = new Date(data.results[i].createdDate).toUTCString();
+        listOfPreviousRuns.push(
+          `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`
+        );
+        // Puts each sentence into an <li> in the HTML
+        let resultsSection = document.getElementById("results");
+        let newLi = document.createElement("li");
+        newLi.innerHTML = listOfPreviousRuns[i];
+        resultsSection.appendChild(newLi);
+      }
+    });
+}
 
-// Send X to remote server and get back Y. We display Y to the user OR an error if they entered something wrong.
-function getYFromServer() {
+// On button click, we initate checkNumFromUser().
+let button = document.getElementById("button");
+button.addEventListener("click", checkNumFromUser);
+
+// Function to validate number inputted by user
+function checkNumFromUser() {
   // Remove items left over from any previous runs of the function (e.g. alerts, the last y number, etc.)
   hideAlert();
   document.getElementById("y").innerText = "";
   document.getElementById("forty-two-error").innerText = "";
-  // Start processing of X
   showSpinner();
   fibonacciX = document.getElementById("inputField").value;
-  // Num entered by user can't be higher than 50
   if (fibonacciX > 50) {
     let alert = document.getElementById("alert");
     showAlert();
     alert.innerText = "Can't be larger than 50.";
     hideSpinner();
-    // Num entered by user can't be lower than 1
   } else if (fibonacciX < 1) {
     let alert = document.getElementById("alert");
     showAlert();
     alert.innerText = "Can't be less than 1.";
     hideSpinner();
   } else {
+    getYFromServer(fibonacciX);
+  }
+
+  // Send X to remote server and get back Y. We display Y to the user OR an error if they entered something wrong.
+  function getYFromServer(fibonacciX) {
     fetch("http://localhost:5050/fibonacci/" + fibonacciX)
       .then(response => {
-        // This starts handling for the '42' error. The 42 error returns a 400.
-        // If a user enters 42, we must return the data as Text. Otherwise, we return it as an Object.
+        // This starts handling for the '42' error., which returns a 400.
+        // If 400, we must return the data as Text to display error message sent by server. Otherwise, we return it as an Object.
         if (response.status === 400) {
-          hideSpinner();
-          console.log("text");
           return response.text();
         } else {
-          console.log("json");
           return response.json();
         }
       })
       .then(data => {
         // If the data is text, we print the text to the user as an error.
         // If data is an object, everything has gone succesfully and we print the Y number to the user.
-        console.log(data);
-        if (typeof data === "object" && data !== null) {
-          let y = data.result;
+        if (typeof data === "object") {
           hideSpinner();
-          document.getElementById("y").innerText = y;
-          console.log("JSON");
+          document.getElementById("y").innerText = data.result;
+          previousResults();
         } else {
           hideSpinner();
           document.getElementById("forty-two-error").innerText =
             "Server Error: " + data;
-          console.log("TEXT");
         }
       });
   }
@@ -65,7 +84,7 @@ function showSpinner() {
   }, 8000);
 }
 
-// Hide spinner once API request has completed
+// Hide spinner
 function hideSpinner() {
   const spinner = document.getElementById("spinner");
   spinner.className = "";
