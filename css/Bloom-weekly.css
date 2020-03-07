@@ -16,32 +16,6 @@ h1 {
 h2 {
   font-size: 54px;
 }
-.main-content {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  margin-bottom: 80px;
-}
-.form-control {
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 90px;
-}
-#button {
-  background-color: #0275d8;
-  height: 40px;
-  font-size: 16px;
-  text-align: center;
-}
-#y {
-  font-weight: bold;
-  text-decoration: underline;
-  margin-left: 15px;
-}
-.form-control.red {
-  color: #d9534f;
-  border: 1px solid #d9534f;
-}
 .spinner {
   display: none;
   border: 5px solid transparent; /* Light grey */
@@ -64,11 +38,55 @@ h2 {
     transform: rotate(360deg);
   }
 }
+
+/* Main content  */
+.main-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+.form-control {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 90px;
+}
+#button {
+  background-color: #0275d8;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+}
+#y {
+  font-weight: bold;
+  text-decoration: underline;
+  margin-left: 15px;
+}
+.form-control.red {
+  color: #d9534f;
+  border: 1px solid #d9534f;
+}
+
+/* line below main content  */
+.line-below-main-content {
+  display: flex;
+  align-items: center;
+  height: 75px;
+  margin-bottom: 80px;
+}
+
+.line-below-main-content .form-check-input {
+  margin-left: 0;
+}
+.line-below-main-content .checkbox-text {
+  margin-left: 25px;
+  font-size: 16px;
+}
+
 #alert {
   visibility: hidden;
   width: 220px;
-  margin-top: 10px;
-  margin-left: 67px;
+  margin-left: 50px;
+  margin-bottom: 0;
   text-align: center;
 }
 #alert.show {
@@ -77,8 +95,9 @@ h2 {
 #forty-two-error {
   color: #d9534f;
   font-size: 16px;
-  margin-left: -40px;
 }
+
+/* Results */
 .results-header {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 // //Milestone 7.1
 // function previousResults() {
 //   console.log("hello")
-//   showSpinnerTwo();
+//   showResultsSpinner();
 //   let response = await fetch("http://localhost:5050/getFibonacciResults");
 //   let data = await response.json();
 //   for (let i = 0; i < data.results.length; i++) {
@@ -11,12 +11,12 @@
 //     newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
 //     results.appendChild(newLi);
 //   }
-//   hideSpinnerTwo();
+//   hideResultsSpinner();
 // }
 
 previousResults();
 function previousResults() {
-  showSpinnerTwo();
+  showResultsSpinner();
   let results = document.getElementById("results-list");
   results.innerHTML = "";
   fetch("http://localhost:5050/getFibonacciResults")
@@ -31,7 +31,7 @@ function previousResults() {
         newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
         results.appendChild(newLi);
       }
-      hideSpinnerTwo();
+      hideResultsSpinner();
     });
 }
 
@@ -40,7 +40,6 @@ let button = document.getElementById("button");
 button.addEventListener("click", validateNumFromUser);
 
 function validateNumFromUser() {
-  // Remove items left over from any previous runs of the function (e.g. alerts, the last y number, etc.)
   hideAlert();
   document.getElementById("y").innerText = "";
   document.getElementById("forty-two-error").innerText = "";
@@ -57,10 +56,28 @@ function validateNumFromUser() {
     alert.innerText = "Can't be less than 1.";
     hideSpinner();
   } else {
-    getYFromServer(fibonacciX);
+    if (document.getElementById("checkBox").checked === true) {
+      calculateFibonacciViaServer(fibonacciX);
+    } else {
+      let y = calculateFibonacciLocally(fibonacciX);
+      hideSpinner();
+      document.getElementById("y").innerText = y;
+    }
   }
 
-  function getYFromServer(fibonacciX) {
+  function calculateFibonacciLocally(x) {
+    //base case.
+    if (x === 1 || x === 0) return x;
+    //recursive case.
+    else {
+      return (
+        calculateFibonacciLocally(x - 2) + calculateFibonacciLocally(x - 1)
+      );
+    }
+  }
+
+  function calculateFibonacciViaServer(fibonacciX) {
+    console.log("remote");
     fetch("http://localhost:5050/fibonacci/" + fibonacciX)
       .then(response => {
         if (response.status === 400 || response.status === 500) {
@@ -96,7 +113,7 @@ function hideSpinner() {
   spinner.style.display = "none";
 }
 
-function showSpinnerTwo() {
+function showResultsSpinner() {
   let spinner = document.getElementById("spinner-results");
   spinner.style.display = "inline-block";
   setTimeout(() => {
@@ -104,7 +121,7 @@ function showSpinnerTwo() {
   }, 8000);
 }
 
-function hideSpinnerTwo() {
+function hideResultsSpinner() {
   let spinner = document.getElementById("spinner-results");
   spinner.style.display = "none";
 }
