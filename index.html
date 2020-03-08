@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bloom | JS Milestone 8</title>
+    <title>Bloom | Fibonacci Calculator</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -15,7 +15,8 @@
   </head>
   <body>
     <h1>Fibonacci Calculator</h1>
-    <div class="main-content">
+    <!-- On this line, user inputs X and Gets back Y  -->
+    <div class="calculator">
       <span>
         The Fibonacci Of
       </span>
@@ -26,21 +27,22 @@
         placeholder="#"
         aria-label="Search"
       />
-      <button id="button" class="btn btn-primary">
+      <button id="calcFib" class="btn btn-primary">
         IS
       </button>
-      <span id="y"></span>
+      <span id="y" class="y"></span>
       <div id="spinner" class="spinner"></div>
       <span id="forty-two-error"></span>
     </div>
-    <div class="line-below-main-content">
+    <!-- Save Caluculations and Alerts appear here -->
+    <div class="save-calculations">
       <input type="checkbox" class="form-check-input" id="checkBox" />
       <span class="checkbox-text">Save Calculation</span>
       <div id="alert" class="alert alert-danger" role="alert"></div>
     </div>
+    <!-- List of previous results appear here -->
     <div class="results-header">
       <h2>Results</h2>
-
       <div id="spinner-results" class="spinner"></div>
     </div>
     <div class="w3-dropdown-click">
@@ -57,7 +59,7 @@
         >
       </div>
     </div>
-    <ul id="results-list"></ul>
+    <ul id="past-results"></ul>
     <script src="js/Bloom-weekly.js"></script>
   </body>
 </html>

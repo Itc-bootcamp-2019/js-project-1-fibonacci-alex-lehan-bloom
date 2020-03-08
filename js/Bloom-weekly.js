@@ -1,30 +1,30 @@
-previousResults();
-async function previousResults(sorting) {
-  console.log(sorting);
+// Past fibonacci results from server
+pastFibResults();
+async function pastFibResults(sortOrder) {
   showResultsSpinner();
-  let results = document.getElementById("results-list");
+  let results = document.getElementById("past-results");
   results.innerHTML = "";
   let response = await fetch("http://localhost:5050/getFibonacciResults");
   let data = await response.json();
-  if (sorting === 1) {
+  if (sortOrder === 1) {
     data.results.sort(function(a, b) {
       return a.result - b.result;
     });
-  } else if (sorting === 2) {
+  } else if (sortOrder === 2) {
     data.results.sort(function(a, b) {
       return b.result - a.result;
     });
-  } else if (sorting === 3) {
+  } else if (sortOrder === 3) {
     data.results.sort(function(a, b) {
       return new Date(a.createdDate) - new Date(b.createdDate);
     });
-  } else if (sorting === 4) {
+  } else if (sortOrder === 4) {
     data.results.sort(function(a, b) {
       return new Date(b.createdDate) - new Date(a.createdDate);
     });
   }
   for (let i = 0; i < data.results.length; i++) {
-    let results = document.getElementById("results-list");
+    let results = document.getElementById("past-results");
     let date = new Date(data.results[i].createdDate).toUTCString();
     let newLi = document.createElement("li");
     newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
@@ -33,9 +33,42 @@ async function previousResults(sorting) {
   hideResultsSpinner();
 }
 
-// On button click, initate validateNumFromUser().
-let button = document.getElementById("button");
-button.addEventListener("click", validateNumFromUser);
+// Sorting on past results from server
+let dropdown = document.getElementById("dropdown");
+dropdown.addEventListener("click", displayDropDownItems);
+
+function displayDropDownItems() {
+  var x = document.getElementById("dropdown-list");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+let numAsc = document.getElementById("numAsc");
+numAsc.addEventListener("click", () => {
+  pastFibResults(1);
+});
+
+let numDesc = document.getElementById("numDesc");
+numDesc.addEventListener("click", () => {
+  pastFibResults(2);
+});
+
+let dateAsc = document.getElementById("dateAsc");
+dateAsc.addEventListener("click", () => {
+  pastFibResults(3);
+});
+
+let dateDesc = document.getElementById("dateDesc");
+dateDesc.addEventListener("click", () => {
+  pastFibResults(4);
+});
+
+// Validate X number from user and Calculate fibonacci
+let calcFibButton = document.getElementById("calcFib");
+calcFibButton.addEventListener("click", validateNumFromUser);
 
 function validateNumFromUser() {
   hideAlert();
@@ -74,8 +107,8 @@ function validateNumFromUser() {
     }
   }
 
-  async function calculateFibonacciViaServer(fibonacciX) {
-    let response = await fetch("http://localhost:5050/fibonacci/" + fibonacciX);
+  async function calculateFibonacciViaServer(x) {
+    let response = await fetch("http://localhost:5050/fibonacci/" + x);
     let data;
     if (response.status === 400 || response.status === 500) {
       data = await response.text();
@@ -85,7 +118,7 @@ function validateNumFromUser() {
     if (typeof data === "object") {
       hideSpinner();
       document.getElementById("y").innerText = data.result;
-      previousResults();
+      pastFibResults();
     } else {
       hideSpinner();
       document.getElementById("forty-two-error").innerText =
@@ -94,6 +127,7 @@ function validateNumFromUser() {
   }
 }
 
+// Show and Hide spinners and alerts
 function showSpinner() {
   let spinner = document.getElementById("spinner");
   spinner.style.display = "inline-block";
@@ -121,47 +155,11 @@ function hideResultsSpinner() {
 }
 
 function showAlert() {
-  const alert = document.getElementById("alert");
-  alert.className = "alert alert-danger show";
-  const inputField = document.getElementById("inputField");
-  inputField.className = "form-control red";
+  let alert = document.getElementById("alert");
+  alert.style.display = "inline-block";
 }
 
 function hideAlert() {
-  const alert = document.getElementById("alert");
-  alert.className = "";
-  const inputField = document.getElementById("inputField");
-  inputField.className = "form-control";
+  let alert = document.getElementById("alert");
+  alert.style.display = "none";
 }
-
-let dropwdown = document.getElementById("dropdown");
-dropdown.addEventListener("click", displayDropDownItems);
-
-function displayDropDownItems() {
-  var x = document.getElementById("dropdown-list");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else {
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
-
-let numAsc = document.getElementById("numAsc");
-numAsc.addEventListener("click", () => {
-  previousResults(1);
-});
-
-let numDesc = document.getElementById("numDesc");
-numDesc.addEventListener("click", () => {
-  previousResults(2);
-});
-
-let dateAsc = document.getElementById("dateAsc");
-dateAsc.addEventListener("click", () => {
-  previousResults(3);
-});
-
-let dateDesc = document.getElementById("dateDesc");
-dateDesc.addEventListener("click", () => {
-  previousResults(4);
-});
