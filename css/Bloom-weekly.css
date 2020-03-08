@@ -16,6 +16,7 @@ h1 {
 h2 {
   font-size: 54px;
 }
+
 .spinner {
   display: none;
   border: 5px solid transparent; /* Light grey */
@@ -118,4 +119,41 @@ h2 {
 .bold {
   font-weight: bold;
   font-size: 25px;
+}
+
+.w3-button {
+  background-color: #e6e6e6;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  width: 122px;
+  height: 40px;
+  padding: 8px 15px 8px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.w3-button span {
+  font-size: 16px;
+}
+.w3-button .down-arrow {
+  margin-top: 5px;
+}
+.w3-dropdown-content {
+  text-align: center;
+}
+.dropdown-item {
+  border: 1px solid #cccccc;
+  border-bottom: none;
+  width: 100%;
+  display: inline-block;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.dropdown-item-last-item {
+  border-bottom: 1px solid #cccccc;
+}
+a:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
 }

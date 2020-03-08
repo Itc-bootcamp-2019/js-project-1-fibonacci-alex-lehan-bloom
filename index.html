@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bloom | JS Milestone 7</title>
+    <title>Bloom | JS Milestone 8</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="css/Bloom-weekly.css" />
   </head>
   <body>
@@ -39,7 +40,22 @@
     </div>
     <div class="results-header">
       <h2>Results</h2>
+
       <div id="spinner-results" class="spinner"></div>
+    </div>
+    <div class="w3-dropdown-click">
+      <button id="dropdown" class="w3-button">
+        <span>Sort By</span>
+        <span class="down-arrow">&#129171;</span>
+      </button>
+      <div id="dropdown-list" class="w3-dropdown-content w3-bar-block">
+        <a id="numAsc" class="dropdown-item">Number Asc</a>
+        <a id="numDesc" class="dropdown-item">Number Desc</a>
+        <a id="dateAsc" class="dropdown-item">Date Asc</a>
+        <a id="dateDesc" class="dropdown-item dropdown-item-last-item"
+          >Date Desc</a
+        >
+      </div>
     </div>
     <ul id="results-list"></ul>
     <script src="js/Bloom-weekly.js"></script>

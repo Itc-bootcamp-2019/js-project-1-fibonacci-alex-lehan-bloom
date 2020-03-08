@@ -1,11 +1,28 @@
 previousResults();
-async function previousResults() {
+async function previousResults(sorting) {
+  console.log(sorting);
   showResultsSpinner();
   let results = document.getElementById("results-list");
   results.innerHTML = "";
   let response = await fetch("http://localhost:5050/getFibonacciResults");
   let data = await response.json();
-  console.log(data);
+  if (sorting === 1) {
+    data.results.sort(function(a, b) {
+      return a.result - b.result;
+    });
+  } else if (sorting === 2) {
+    data.results.sort(function(a, b) {
+      return b.result - a.result;
+    });
+  } else if (sorting === 3) {
+    data.results.sort(function(a, b) {
+      return new Date(a.createdDate) - new Date(b.createdDate);
+    });
+  } else if (sorting === 4) {
+    data.results.sort(function(a, b) {
+      return new Date(b.createdDate) - new Date(a.createdDate);
+    });
+  }
   for (let i = 0; i < data.results.length; i++) {
     let results = document.getElementById("results-list");
     let date = new Date(data.results[i].createdDate).toUTCString();
@@ -58,16 +75,13 @@ function validateNumFromUser() {
   }
 
   async function calculateFibonacciViaServer(fibonacciX) {
-    console.log("remote");
     let response = await fetch("http://localhost:5050/fibonacci/" + fibonacciX);
-    console.log(response.status);
     let data;
     if (response.status === 400 || response.status === 500) {
       data = await response.text();
     } else {
       data = await response.json();
     }
-    console.log(data);
     if (typeof data === "object") {
       hideSpinner();
       document.getElementById("y").innerText = data.result;
@@ -119,3 +133,35 @@ function hideAlert() {
   const inputField = document.getElementById("inputField");
   inputField.className = "form-control";
 }
+
+let dropwdown = document.getElementById("dropdown");
+dropdown.addEventListener("click", displayDropDownItems);
+
+function displayDropDownItems() {
+  var x = document.getElementById("dropdown-list");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+let numAsc = document.getElementById("numAsc");
+numAsc.addEventListener("click", () => {
+  previousResults(1);
+});
+
+let numDesc = document.getElementById("numDesc");
+numDesc.addEventListener("click", () => {
+  previousResults(2);
+});
+
+let dateAsc = document.getElementById("dateAsc");
+dateAsc.addEventListener("click", () => {
+  previousResults(3);
+});
+
+let dateDesc = document.getElementById("dateDesc");
+dateDesc.addEventListener("click", () => {
+  previousResults(4);
+});
