@@ -1,38 +1,19 @@
-// //Milestone 7.1
-// function previousResults() {
-//   console.log("hello")
-//   showResultsSpinner();
-//   let response = await fetch("http://localhost:5050/getFibonacciResults");
-//   let data = await response.json();
-//   for (let i = 0; i < data.results.length; i++) {
-//     let results = document.getElementById("results-list");
-//     let date = new Date(data.results[i].createdDate).toUTCString();
-//     let newLi = document.createElement("li");
-//     newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
-//     results.appendChild(newLi);
-//   }
-//   hideResultsSpinner();
-// }
-
 previousResults();
-function previousResults() {
+async function previousResults() {
   showResultsSpinner();
   let results = document.getElementById("results-list");
   results.innerHTML = "";
-  fetch("http://localhost:5050/getFibonacciResults")
-    .then(response => {
-      return response.json();
-    })
-    .then(data => {
-      for (let i = 0; i < data.results.length; i++) {
-        let results = document.getElementById("results-list");
-        let date = new Date(data.results[i].createdDate).toUTCString();
-        let newLi = document.createElement("li");
-        newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
-        results.appendChild(newLi);
-      }
-      hideResultsSpinner();
-    });
+  let response = await fetch("http://localhost:5050/getFibonacciResults");
+  let data = await response.json();
+  console.log(data);
+  for (let i = 0; i < data.results.length; i++) {
+    let results = document.getElementById("results-list");
+    let date = new Date(data.results[i].createdDate).toUTCString();
+    let newLi = document.createElement("li");
+    newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
+    results.appendChild(newLi);
+  }
+  hideResultsSpinner();
 }
 
 // On button click, initate validateNumFromUser().
@@ -76,27 +57,26 @@ function validateNumFromUser() {
     }
   }
 
-  function calculateFibonacciViaServer(fibonacciX) {
+  async function calculateFibonacciViaServer(fibonacciX) {
     console.log("remote");
-    fetch("http://localhost:5050/fibonacci/" + fibonacciX)
-      .then(response => {
-        if (response.status === 400 || response.status === 500) {
-          return response.text();
-        } else {
-          return response.json();
-        }
-      })
-      .then(data => {
-        if (typeof data === "object") {
-          hideSpinner();
-          document.getElementById("y").innerText = data.result;
-          previousResults();
-        } else {
-          hideSpinner();
-          document.getElementById("forty-two-error").innerText =
-            "Server Error: " + data;
-        }
-      });
+    let response = await fetch("http://localhost:5050/fibonacci/" + fibonacciX);
+    console.log(response.status);
+    let data;
+    if (response.status === 400 || response.status === 500) {
+      data = await response.text();
+    } else {
+      data = await response.json();
+    }
+    console.log(data);
+    if (typeof data === "object") {
+      hideSpinner();
+      document.getElementById("y").innerText = data.result;
+      previousResults();
+    } else {
+      hideSpinner();
+      document.getElementById("forty-two-error").innerText =
+        "Server Error: " + data;
+    }
   }
 }
 
