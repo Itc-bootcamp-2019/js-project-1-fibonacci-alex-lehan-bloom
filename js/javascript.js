@@ -1,4 +1,3 @@
-// Past fibonacci results from server
 pastFibResults();
 async function pastFibResults(sortOrder) {
   hideResultsAlert();
@@ -7,6 +6,7 @@ async function pastFibResults(sortOrder) {
   results.innerHTML = "";
   let response = await fetch("http://localhost:5050/getFibonacciResults");
   let data = await response.json();
+  // Sort order. 1 is Y value asc. 2 is Y value desc. 3 is Date asc. 4 is Date desc.
   if (sortOrder === 1) {
     data.results.sort(function(a, b) {
       return a.result - b.result;
@@ -25,16 +25,31 @@ async function pastFibResults(sortOrder) {
     });
   }
   for (let i = 0; i < data.results.length; i++) {
-    let results = document.getElementById("past-results");
+    let fibOfText = document.createElement("span");
+    fibOfText.innerText = "The fibonacci of ";
+    let isText = document.createElement("span");
+    isText.innerText = " is ";
+    let calculatedText = document.createElement("span");
     let date = new Date(data.results[i].createdDate).toString();
+    calculatedText.innerText = `. Calcualted at ${date}`;
+    let fibX = document.createElement("span");
+    fibX.className = "bold";
+    fibX.innerText = data.results[i].number;
+    let fibY = document.createElement("span");
+    fibY.className = "bold";
+    fibY.innerHTML = data.results[i].result;
     let newLi = document.createElement("li");
-    newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
+    newLi.appendChild(fibOfText);
+    newLi.appendChild(fibX);
+    newLi.appendChild(isText);
+    newLi.appendChild(fibY);
+    newLi.appendChild(calculatedText);
+    let results = document.getElementById("past-results");
     results.appendChild(newLi);
   }
   hideResultsSpinner();
 }
 
-// Sorting on past results from server
 let dropdown = document.getElementById("dropdown");
 dropdown.addEventListener("click", displayDropDownItems);
 
@@ -67,7 +82,6 @@ dateDesc.addEventListener("click", () => {
   pastFibResults(4);
 });
 
-// Validate X number from user and Calculate fibonacci
 let calcFibButton = document.getElementById("calcFib");
 calcFibButton.addEventListener("click", validateNumFromUser);
 
@@ -132,7 +146,6 @@ function validateNumFromUser() {
   }
 }
 
-// Show and Hide spinners and alerts
 function showSpinner() {
   let spinner = document.getElementById("spinner");
   spinner.style.display = "inline-block";
