@@ -1,6 +1,7 @@
 // Past fibonacci results from server
 pastFibResults();
 async function pastFibResults(sortOrder) {
+  hideResultsAlert();
   showResultsSpinner();
   let results = document.getElementById("past-results");
   results.innerHTML = "";
@@ -75,14 +76,18 @@ function validateNumFromUser() {
   document.getElementById("y").innerText = "";
   document.getElementById("forty-two-error").innerText = "";
   showSpinner();
+  let alert = document.getElementById("alert");
   fibonacciX = document.getElementById("inputField").value;
-  if (fibonacciX > 50) {
-    let alert = document.getElementById("alert");
+  console.log(isNaN(fibonacciX));
+  if (isNaN(fibonacciX) === true) {
+    showAlert();
+    alert.innerText = "Must enter a number.";
+    hideSpinner();
+  } else if (fibonacciX > 50) {
     showAlert();
     alert.innerText = "Can't be larger than 50.";
     hideSpinner();
   } else if (fibonacciX < 1) {
-    let alert = document.getElementById("alert");
     showAlert();
     alert.innerText = "Can't be less than 1.";
     hideSpinner();
@@ -110,7 +115,7 @@ function validateNumFromUser() {
   async function calculateFibonacciViaServer(x) {
     let response = await fetch("http://localhost:5050/fibonacci/" + x);
     let data;
-    if (response.status === 400 || response.status === 500) {
+    if (response.ok === false) {
       data = await response.text();
     } else {
       data = await response.json();
@@ -132,8 +137,14 @@ function showSpinner() {
   let spinner = document.getElementById("spinner");
   spinner.style.display = "inline-block";
   setTimeout(() => {
-    spinner.className = spinner.className.replace("show", "");
-  }, 8000);
+    if (spinner.style.display === "inline-block") {
+      let spinner = document.getElementById("spinner");
+      spinner.style.display = "none";
+      showAlert();
+      let alert = document.getElementById("alert");
+      alert.innerText = "Can't reach server.";
+    }
+  }, 6000);
 }
 
 function hideSpinner() {
@@ -145,8 +156,14 @@ function showResultsSpinner() {
   let spinner = document.getElementById("spinner-results");
   spinner.style.display = "inline-block";
   setTimeout(() => {
-    spinner.className = spinner.className.replace("show", "");
-  }, 8000);
+    if (spinner.style.display === "inline-block") {
+      let spinner = document.getElementById("spinner-results");
+      spinner.style.display = "none";
+      showResultsAlert();
+      let alert = document.getElementById("alert-results");
+      alert.innerText = "Can't reach server.";
+    }
+  }, 6000);
 }
 
 function hideResultsSpinner() {
@@ -161,5 +178,15 @@ function showAlert() {
 
 function hideAlert() {
   let alert = document.getElementById("alert");
+  alert.style.display = "none";
+}
+
+function showResultsAlert() {
+  let alert = document.getElementById("alert-results");
+  alert.style.display = "inline-block";
+}
+
+function hideResultsAlert() {
+  let alert = document.getElementById("alert-results");
   alert.style.display = "none";
 }
