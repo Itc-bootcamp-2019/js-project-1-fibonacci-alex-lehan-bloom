@@ -26,7 +26,7 @@ async function pastFibResults(sortOrder) {
   }
   for (let i = 0; i < data.results.length; i++) {
     let results = document.getElementById("past-results");
-    let date = new Date(data.results[i].createdDate).toUTCString();
+    let date = new Date(data.results[i].createdDate).toString();
     let newLi = document.createElement("li");
     newLi.innerHTML = `The fibonacci Of <span class="bold">${data.results[i].number}</span> is <span class="bold">${data.results[i].result}</span>. Calculated at: ${date}`;
     results.appendChild(newLi);
