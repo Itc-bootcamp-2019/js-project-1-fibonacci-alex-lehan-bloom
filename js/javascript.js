@@ -26,12 +26,12 @@ async function pastFibResults(sortOrder) {
   }
   for (let i = 0; i < data.results.length; i++) {
     let fibOfText = document.createElement("span");
-    fibOfText.innerText = "The fibonacci of ";
+    fibOfText.innerText = "The Fibonacci Of ";
     let isText = document.createElement("span");
     isText.innerText = " is ";
     let calculatedText = document.createElement("span");
     let date = new Date(data.results[i].createdDate).toString();
-    calculatedText.innerText = `. Calcualted at ${date}`;
+    calculatedText.innerText = `. Calculated at ${date}`;
     let fibX = document.createElement("span");
     fibX.className = "bold";
     fibX.innerText = data.results[i].number;
@@ -39,11 +39,7 @@ async function pastFibResults(sortOrder) {
     fibY.className = "bold";
     fibY.innerHTML = data.results[i].result;
     let newLi = document.createElement("li");
-    newLi.appendChild(fibOfText);
-    newLi.appendChild(fibX);
-    newLi.appendChild(isText);
-    newLi.appendChild(fibY);
-    newLi.appendChild(calculatedText);
+    newLi.append(fibOfText, fibX, isText, fibY, calculatedText);
     let results = document.getElementById("past-results");
     results.appendChild(newLi);
   }
@@ -87,12 +83,12 @@ calcFibButton.addEventListener("click", validateNumFromUser);
 
 function validateNumFromUser() {
   hideAlert();
+  showCheckBox();
   document.getElementById("y").innerText = "";
   document.getElementById("forty-two-error").innerText = "";
   showSpinner();
   let alert = document.getElementById("alert");
   fibonacciX = document.getElementById("inputField").value;
-  console.log(isNaN(fibonacciX));
   if (isNaN(fibonacciX) === true) {
     showAlert();
     alert.innerText = "Must enter a number.";
@@ -129,7 +125,8 @@ function validateNumFromUser() {
   async function calculateFibonacciViaServer(x) {
     let response = await fetch("http://localhost:5050/fibonacci/" + x);
     let data;
-    if (response.ok === false) {
+    console.log;
+    if (!response.ok) {
       data = await response.text();
     } else {
       data = await response.json();
@@ -148,58 +145,69 @@ function validateNumFromUser() {
 
 function showSpinner() {
   let spinner = document.getElementById("spinner");
-  spinner.style.display = "inline-block";
-  setTimeout(() => {
-    if (spinner.style.display === "inline-block") {
-      let spinner = document.getElementById("spinner");
-      spinner.style.display = "none";
-      showAlert();
-      let alert = document.getElementById("alert");
-      alert.innerText = "Can't reach server.";
-    }
-  }, 6000);
+  spinner.classList.remove("hide-element");
+  spinner.classList.add("display-element");
 }
 
 function hideSpinner() {
   let spinner = document.getElementById("spinner");
-  spinner.style.display = "none";
+  spinner.classList.remove("display-element");
+  spinner.classList.add("hide-element");
 }
 
 function showResultsSpinner() {
   let spinner = document.getElementById("spinner-results");
-  spinner.style.display = "inline-block";
-  setTimeout(() => {
-    if (spinner.style.display === "inline-block") {
-      let spinner = document.getElementById("spinner-results");
-      spinner.style.display = "none";
-      showResultsAlert();
-      let alert = document.getElementById("alert-results");
-      alert.innerText = "Can't reach server.";
-    }
-  }, 6000);
+  spinner.classList.remove("hide-element");
+  spinner.classList.add("display-element");
 }
 
 function hideResultsSpinner() {
   let spinner = document.getElementById("spinner-results");
-  spinner.style.display = "none";
+  spinner.classList.remove("display-element");
+  spinner.classList.add("hide-element");
 }
 
 function showAlert() {
+  hideCheckBox();
   let alert = document.getElementById("alert");
-  alert.style.display = "inline-block";
+  alert.classList.remove("hide-element");
+  alert.classList.add("display-element");
+  let userInputField = document.getElementById("inputField");
+  userInputField.classList.add("red");
+  setTimeout(() => {
+    hideAlert();
+    showCheckBox();
+  }, 3000);
 }
 
 function hideAlert() {
   let alert = document.getElementById("alert");
-  alert.style.display = "none";
+  alert.classList.remove("display-element");
+  alert.classList.add("hide-element");
+  let userInputField = document.getElementById("inputField");
+  userInputField.classList.remove("red");
 }
 
 function showResultsAlert() {
   let alert = document.getElementById("alert-results");
-  alert.style.display = "inline-block";
+  alert.classList.remove("hide-element");
+  alert.classList.add("display-element");
 }
 
 function hideResultsAlert() {
   let alert = document.getElementById("alert-results");
-  alert.style.display = "none";
+  alert.classList.remove("display-element");
+  alert.classList.add("hide-element");
+}
+
+function showCheckBox() {
+  let checkBox = document.getElementById("save-calculations");
+  checkBox.classList.remove("hide-element");
+  checkBox.classList.add("display-element");
+}
+
+function hideCheckBox() {
+  let checkBox = document.getElementById("save-calculations");
+  checkBox.classList.remove("display-element");
+  checkBox.classList.add("hide-element");
 }

@@ -31,6 +31,7 @@ h2 {
 }
 #spinner-results {
   margin-left: 20px;
+  margin-top: 10px;
 }
 @keyframes spin {
   0% {
@@ -58,7 +59,7 @@ h2 {
   text-decoration: underline;
   margin-left: 15px;
 }
-.form-control.red {
+.red {
   color: #d9534f;
   border: 1px solid #d9534f;
 }
@@ -82,7 +83,7 @@ h2 {
 .alert {
   display: none;
   width: 220px;
-  margin-left: 50px;
+  margin-left: 68px;
   margin-bottom: 0;
   text-align: center;
 }
@@ -152,4 +153,11 @@ h2 {
 a:hover {
   background-color: #f8f9fa;
   cursor: pointer;
+}
+
+.display-element {
+  display: inline-block;
+}
+.hide-element {
+  display: none;
 }
