@@ -60,21 +60,28 @@ function displayDropDownItems() {
 
 let numAsc = document.getElementById("numAsc");
 numAsc.addEventListener("click", () => {
+  displayDropDownItems();
   pastFibResults(1);
 });
 
 let numDesc = document.getElementById("numDesc");
 numDesc.addEventListener("click", () => {
+  displayDropDownItems();
+
   pastFibResults(2);
 });
 
 let dateAsc = document.getElementById("dateAsc");
 dateAsc.addEventListener("click", () => {
+  displayDropDownItems();
+
   pastFibResults(3);
 });
 
 let dateDesc = document.getElementById("dateDesc");
 dateDesc.addEventListener("click", () => {
+  displayDropDownItems();
+
   pastFibResults(4);
 });
 
